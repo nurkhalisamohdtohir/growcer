@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table){
-            $table->integer('role')->default(1)->after('email');
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('status')->default(1);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('users', function (Blueprint $table){
-            $table->dropColumn('role');
-        });
+        Schema::dropIfExists('brands');
     }
 };

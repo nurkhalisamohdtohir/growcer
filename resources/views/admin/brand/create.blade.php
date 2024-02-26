@@ -6,10 +6,10 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Category</h1>
+                <h1>Create Brand</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('brands.index') }}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
-        <form action="" method="post" id="categoryForm" name="categoryForm">
+        <form action="" method="post" id="brandForm" name="brandForm">
             <div class="card">
                 <div class="card-body">								
                     <div class="row">
@@ -44,7 +44,7 @@
             </div>
             <div class="pb-5 pt-3">
                 <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('categories.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{{ route('brands.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -55,12 +55,12 @@
 
 @section('customJS')
 <script>
-$("#categoryForm").submit(function(event){
+$("#brandForm").submit(function(event){
     event.preventDefault();
     var element = $(this);
 
     $.ajax({
-        url: '{{ route("categories.store") }}',
+        url: '{{ route("brands.store") }}',
         type: 'post',
         data: element.serializeArray(),
         dataType: 'json',
@@ -68,7 +68,7 @@ $("#categoryForm").submit(function(event){
 
             if(response["status"] == true) {
 
-                window.location.href="{{ route('categories.index') }}";
+                window.location.href="{{ route('brands.index') }}";
 
                 $("#name").removeClass('is-invalid')
                     .siblings('p')

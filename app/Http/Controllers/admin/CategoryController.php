@@ -32,14 +32,12 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'slug' => 'required|unique:categories',
         ]);
 
         if($validator->passes()) {
 
             $category = new Category();
             $category->name = $request->name;
-            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->save();
 
@@ -84,13 +82,11 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'slug' => 'required|unique:categories,slug,'.$category->id.',id',
         ]);
 
         if($validator->passes()) {
 
             $category->name = $request->name;
-            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->save();
 

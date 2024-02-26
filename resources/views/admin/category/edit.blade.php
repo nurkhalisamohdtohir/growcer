@@ -32,13 +32,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="email">Slug</label>
-                                <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $category->slug }}">	
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control">
                                     <option {{ ($category->status == 1) ? 'selected' : '' }} value="1">Active</option>
@@ -83,10 +76,6 @@ $("#categoryForm").submit(function(event){
                     .siblings('p')
                     .removeClass('invalid-feedback').html("");
 
-                $("#slug").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html("");
-
             } else {
 
                 if(response['notFound'] == true) {
@@ -100,16 +89,6 @@ $("#categoryForm").submit(function(event){
                     .addClass('invalid-feedback').html(errors['name']);
                 } else {
                     $("#name").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html("");
-                }
-
-                if(errors['slug']) {
-                    $("#slug").addClass('is-invalid')
-                    .siblings('p')
-                    .addClass('invalid-feedback').html(errors['slug']);
-                } else {
-                    $("#slug").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback').html("");
                 }
