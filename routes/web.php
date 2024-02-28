@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\BrandController;
+use App\Http\Controllers\admin\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,5 +48,13 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/brands/{brand}/edit',[BrandController::class,'edit'])->name('brands.edit');
         Route::put('/brands/{brand}',[BrandController::class,'update'])->name('brands.update');
         Route::delete('/brands/{brand}',[BrandController::class,'destroy'])->name('brands.delete');
+
+        //Product routes
+        Route::get('/products',[ProductController::class,'index'])->name('products.index');
+        Route::get('/products/create',[ProductController::class,'create'])->name('products.create');
+        Route::post('/products',[ProductController::class,'store'])->name('products.store');
+        Route::get('/products/{product}/edit',[ProductController::class,'edit'])->name('products.edit');
+        Route::put('/products/{product}',[ProductController::class,'update'])->name('products.update');
+        Route::delete('/products/{product}',[ProductController::class,'destroy'])->name('products.delete');
     });
 });
