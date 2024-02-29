@@ -7,6 +7,9 @@ use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +21,16 @@ use App\Http\Controllers\admin\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/',[FrontController::class,'index'])->name('front.home');
+Route::get('/shop',[ShopController::class,'index'])->name('front.shop');
+Route::get('/cart',[CartController::class,'cart'])->name('front.cart');
+Route::post('/add-to-cart',[CartController::class,'addToCart'])->name('front.addToCart');
+Route::post('/update-cart',[CartController::class,'updateCart'])->name('front.updateCart');
+Route::post('/delete-item',[CartController::class,'deleteItem'])->name('front.deleteItem.cart');
 
 Route::group(['prefix' => 'admin'],function(){
     
