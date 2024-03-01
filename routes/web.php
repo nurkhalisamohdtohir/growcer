@@ -48,6 +48,7 @@ Route::group(['prefix' => 'account'],function(){
 
     Route::group(['middleware' => 'auth'],function() {
         Route::get('/profile',[AuthController::class,'profile'])->name('account.profile');
+        Route::post('/update-profile',[AuthController::class,'updateProfile'])->name('account.updateProfile');
         Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
     });
 });
