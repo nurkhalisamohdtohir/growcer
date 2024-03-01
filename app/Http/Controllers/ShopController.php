@@ -13,6 +13,7 @@ class ShopController extends Controller
 
         $categories = Category::orderBy('id','ASC')->where('status', 1)->get();
         $brands = Brand::orderBy('id','ASC')->where('status', 1)->get();
+        $recipes = Product::whereNotNull('recipe')->where('recipe', '!=', '')->distinct()->pluck('recipe');
         
         $brandsArray = [];
         $categoriesArray = [];
@@ -38,7 +39,25 @@ class ShopController extends Controller
         $data['products'] = $products;
         $data['categoriesArray'] = $categoriesArray;
         $data['brandsArray'] = $brandsArray;
+        $data['recipes'] = $recipes;
 
         return view('front.shop', $data);
+    }
+
+    public function recipe($recipe) {
+        
+        $recipes = Product::whereNotNull('recipe')->where('recipe', '!=', '')->distinct()->pluck('recipe');
+        $products = Product::where('recipe', $recipe)->get();
+        
+        $data['recipes'] = $recipes;
+        $data['products'] = $products;
+        
+        if ($recipe == 'Bubur Ayam') {
+            return view('front.recipe', $data, compact('recipe'));
+        } elseif ($recipe == 'Milo Smoothies') {
+            return view('front.recipe2', $data, compact('recipe'));
+        } else {
+            return view('front.shop', $data);
+        }
     }
 }

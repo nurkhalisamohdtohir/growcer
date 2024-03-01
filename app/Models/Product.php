@@ -18,4 +18,9 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+
+    public function recipes($query)
+    {
+        return $query->whereNotNull('recipe')->where('recipe', '!=', '')->distinct()->pluck('recipe');
+    }
 }

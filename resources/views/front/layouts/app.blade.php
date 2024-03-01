@@ -100,7 +100,18 @@
 							@endif
 						</ul>
 					</li>
-                    
+                    <li class="nav-item dropdown">
+						<button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+							Recipes
+						</button>
+						<ul class="dropdown-menu dropdown-menu-dark">
+							@if($recipes->isNotEmpty())
+                        	@foreach ($recipes as $recipe)
+							<li><a class="dropdown-item nav-link" href="{{ route('front.recipe',$recipe) }}">{{ $recipe }} </a></li>
+							@endforeach
+                        	@endif 
+						</ul>
+					</li>
       			</ul>      			
       		</div>   
 			<div class="right-nav py-0">

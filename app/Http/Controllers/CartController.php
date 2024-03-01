@@ -59,8 +59,11 @@ class CartController extends Controller
 
     public function cart() {
         $cartContent = Cart::content();
+        $recipes = Product::whereNotNull('recipe')->where('recipe', '!=', '')->distinct()->pluck('recipe');
         //dd($cartContent);
         $data['cartContent'] = $cartContent;
+        $data['recipes'] = $recipes;
+        
         return view('front.cart',$data);
     }
 
