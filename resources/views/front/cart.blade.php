@@ -178,7 +178,7 @@
 @section('customJs')
 <script>
 $('.add').click(function(){
-        var qtyElement = $(this).parent().prev(); // Qty Input
+        var qtyElement = $(this).parent().prev(); 
         var qtyValue = parseInt(qtyElement.val());
         if (qtyValue < 10) {
             qtyElement.val(qtyValue+1);
