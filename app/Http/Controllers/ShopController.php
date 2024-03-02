@@ -31,6 +31,10 @@ class ShopController extends Controller
             $products = $products->whereIn('brand_id', $brandsArray);
         }
 
+        if(!empty($request->get('search'))) {
+            $products = $products->where('name','like','%'.$request->get('search').'%');
+        }
+
         $products = $products->orderBy('id','ASC');
         $products = $products->paginate(12);
 
