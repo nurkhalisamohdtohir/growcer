@@ -9,10 +9,6 @@ class FrontController extends Controller
 {
     public function index() {
 
-        $recipes = Product::whereNotNull('recipe')->where('recipe', '!=', '')->distinct()->pluck('recipe');
-        $data['recipes'] = $recipes;
-
-        return view('front.home',$data);
-
+        return view('front.home');
     }
 }

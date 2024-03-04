@@ -28,11 +28,14 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/',[FrontController::class,'index'])->name('front.home');
 Route::get('/shop',[ShopController::class,'index'])->name('front.shop');
+Route::get('/recipe/{recipe}',[ShopController::class,'recipe'])->name('front.recipe');
 Route::get('/cart',[CartController::class,'cart'])->name('front.cart');
 Route::post('/add-to-cart',[CartController::class,'addToCart'])->name('front.addToCart');
 Route::post('/update-cart',[CartController::class,'updateCart'])->name('front.updateCart');
 Route::post('/delete-item',[CartController::class,'deleteItem'])->name('front.deleteItem.cart');
-Route::get('/recipe/{recipe}',[ShopController::class,'recipe'])->name('front.recipe');
+Route::get('/checkout',[CartController::class,'checkout'])->name('front.checkout');
+Route::post('/process-checkout',[CartController::class,'processCheckout'])->name('front.processCheckout');
+Route::get('/thanks/{orderId}',[CartController::class,'thankyou'])->name('front.thankyou');
 
 
 Route::group(['prefix' => 'account'],function(){
@@ -51,6 +54,8 @@ Route::group(['prefix' => 'account'],function(){
         Route::post('/update-profile',[AuthController::class,'updateProfile'])->name('account.updateProfile');
         Route::get('/change-password',[AuthController::class,'showChangePasswordForm'])->name('account.changePassword');
         Route::post('/process-change-password',[AuthController::class,'changePassword'])->name('account.processChangePassword');
+        Route::get('/my-orders',[AuthController::class,'orders'])->name('account.orders');
+        Route::get('/order-detail/{orderId}',[AuthController::class,'orderDetail'])->name('account.orderDetail');
         Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
     });
 });

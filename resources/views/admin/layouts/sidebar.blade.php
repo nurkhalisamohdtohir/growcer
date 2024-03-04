@@ -12,7 +12,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>																
@@ -61,12 +61,6 @@
                     <a href="users.html" class="nav-link">
                         <i class="nav-icon  fas fa-users"></i>
                         <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="pages.html" class="nav-link">
-                        <i class="nav-icon  far fa-file-alt"></i>
-                        <p>Pages</p>
                     </a>
                 </li>							
             </ul>

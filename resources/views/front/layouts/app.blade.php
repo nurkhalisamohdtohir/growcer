@@ -47,25 +47,42 @@
 </head>
 <body data-instant-intensity="mousedown">
 
-<div class="bg-light top-header">        
+
+<div class="container-fluid" style="background-color: #e62e00;">
+	<ul class="nav justify-content-end">
+			<li class="nav-item">
+				<a class="nav-link text-white" href="{{ route('front.cart') }}"><i class="fas fa-shopping-cart"></i> Cart</a>
+			</li>
+		@if(Auth::check())
+			<li class="nav-item">
+				<a class="nav-link text-white" href="{{ route('account.profile') }}"><i class="fas fa-user-alt"></i> Account</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-white" href="{{ route('account.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+			</li>
+		@else
+			<li class="nav-item">
+				<a class="nav-link text-white" href="{{ route('account.login') }}"><i class="fas fa-lock"></i> Login</a>
+			</li>
+		@endif
+	</ul>
+</div>
+
+
+<div class="bg-white top-header">        
 	<div class="container">
 		<div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
-			<div class="col-lg-4 logo">
+			<div class="col-lg-5 nav justify-content-center">
 				<a href="index.php" class="text-decoration-none">
-					<span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Growcer</span>
+					<img src="{{ asset('front-assets/images/logo.jpg') }}" alt="" style="width:130px; height:130px;">
 				</a>
 			</div>
-			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-				@if(Auth::check())
-				<a href="{{ route('account.profile') }}" class="nav-link text-dark">My Account</a>
-				@else
-				<a href="{{ route('account.login') }}" class="nav-link text-dark">Login/Register</a>
-				@endif
+			<div class="col-lg-7 text-left  d-flex  align-items-center">
 				<form action="{{ route('front.shop') }}" method="get">					
 					<div class="input-group">
 						<input type="text" placeholder="Search For Products" class="form-control" name="search" value="{{ Request::get('search') }}">
-						<button type="submit" class="input-group-text">
-							<i class="fa fa-search"></i>
+						<button type="submit" class="input-group-text" style="background-color: tomato;">
+							<i class="fa fa-search" style="color: white;"></i>
 					  	</button>
 					</div>
 				</form>
@@ -73,6 +90,39 @@
 		</div>
 	</div>
 </div>
+
+<header class="bg-white" style="border-bottom: 3px solid tomato;">
+	<div class="container">
+		<nav class="navbar navbar-expand-xl bg-white navbar-light" id="navbar">
+			<a href="{{ route('front.home') }}" class="text-decoration-none mobile-logo">
+				<span class="h3 text-capitalize px-2" style="color: #e62e00;">Growcer</span>
+			</a>
+			<button class="navbar-toggler menu-btn" type="button" style="background-color: #e62e00;" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      			<i class="navbar-toggler-icon"></i>
+    		</button>
+    		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+      			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        			<li class="nav-item">
+          				<a class="nav-link"href="{{ route('front.home') }}">Home</a>
+        			</li>
+                    <li class="nav-item">
+                        <a class="nav-link"href="{{ route('front.shop') }}">All Products</a>
+                  </li>
+                    <li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Recipes</a>
+						<ul class="dropdown-menu ">
+							@if(getRecipes()->isNotEmpty())
+                                @foreach (getRecipes() as $recipe)
+                                <li><a class="dropdown-item nav-link" href="{{ route('front.recipe',$recipe) }}">{{ $recipe }} </a></li>
+                                @endforeach
+                        	@endif 
+						</ul>
+					</li>
+      			</ul>      			
+      		</div> 		
+      	</nav>
+  	</div>
+</header>
 
 
 
@@ -82,50 +132,13 @@
 </main>
 
 
-<footer class="bg-dark mt-5">
-	<div class="container pb-5 pt-3">
-		<div class="row">
-			<div class="col-md-4">
-				<div class="footer-card">
-					<h3>Get In Touch</h3>
-					<p>No dolore ipsum accusam no lorem. <br>
-					123 Street, New York, USA <br>
-					exampl@example.com <br>
-					000 000 0000</p>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="footer-card">
-					<h3>Important Links</h3>
-					<ul>
-						<li><a href="about-us.php" title="About">About</a></li>
-						<li><a href="contact-us.php" title="Contact Us">Contact Us</a></li>						
-						<li><a href="#" title="Privacy">Privacy</a></li>
-						<li><a href="#" title="Privacy">Terms & Conditions</a></li>
-						<li><a href="#" title="Privacy">Refund Policy</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="footer-card">
-					<h3>My Account</h3>
-					<ul>
-						<li><a href="#" title="Sell">Login</a></li>
-						<li><a href="#" title="Advertise">Register</a></li>
-						<li><a href="#" title="Contact Us">My Orders</a></li>						
-					</ul>
-				</div>
-			</div>			
-		</div>
-	</div>
-	<div class="copyright-area">
+<footer class="bg-light mt-5">
+	<div class="copyright-area" style="background-color: #e62e00;">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 mt-3">
 					<div class="copy-right text-center">
-						<p>© Copyright 2022 Amazing Shop. All Rights Reserved</p>
+						<p>© Copyright Growcer Stores 2024. All Rights Reserved</p>
 					</div>
 				</div>
 			</div>
