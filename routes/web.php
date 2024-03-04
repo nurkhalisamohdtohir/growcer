@@ -38,6 +38,11 @@ Route::get('/checkout',[CartController::class,'checkout'])->name('front.checkout
 Route::post('/process-checkout',[CartController::class,'processCheckout'])->name('front.processCheckout');
 Route::get('/thanks/{orderId}',[CartController::class,'thankyou'])->name('front.thankyou');
 
+Route::get('/forgot-password',[AuthController::class,'forgotPassword'])->name('front.forgotPassword');
+Route::post('/process-forgot-password',[AuthController::class,'processForgotPassword'])->name('front.processForgotPassword');
+Route::get('/reset-password/{token}',[AuthController::class,'resetPassword'])->name('front.resetPassword');
+Route::post('/process-reset-password',[AuthController::class,'processResetPassword'])->name('front.processResetPassword');
+
 
 Route::group(['prefix' => 'account'],function(){
 
