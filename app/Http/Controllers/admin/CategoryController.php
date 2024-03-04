@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request) {
 
-        $categories = Category::oldest();
+        $categories = Category::latest('categories.id');
 
         if(!empty($request->get('keyword'))) {
             $categories = $categories->where('name', 'like', '%'.$request->get('keyword').'%');

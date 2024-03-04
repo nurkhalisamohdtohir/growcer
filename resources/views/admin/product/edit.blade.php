@@ -18,7 +18,7 @@
 <!-- Main content -->
 <section class="content">
     <!-- Default box -->
-    <form action="" method="post" id="productForm" name="productForm">
+    <form action="" method="post" id="productForm" name="productForm" enctype="multipart/form-data">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-8">
@@ -41,14 +41,19 @@
                                         <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Quantity" value="{{ $product->quantity }}">
                                         <p class="error"></p>	
                                     </div>
+                                    {{--<div class="mb-3">
+                                        <label for="current_image">Current Image</label>
+                                        <p><img src="{{ asset('admin-assets/image/' . $product->image) }}" alt="Current Image" style="max-width: 150px;"></p>
+                                    </div>--}}
                                 </div>                                           
                             </div>
                         </div>	                                                                      
                     </div>
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h2 class="h4 mb-3">Upload Image</h2>
+                            <h2 class="h4 mb-3">Upload New Image</h2>
                             <input type="file" name="image" id="image" class="form-control">
+                            <p class="error"></p>
                         </div>	                                                                      
                     </div>
                 </div>
@@ -61,6 +66,7 @@
                                     <option {{ ($product->status == 1) ? 'selected' : '' }} value="1">Active</option>
                                     <option {{ ($product->status == 0) ? 'selected' : '' }} value="0">Block</option>
                                 </select>
+                                <p class="error"></p>
                             </div>
                         </div>
                     </div> 
@@ -119,24 +125,29 @@ $("#productForm").submit(function(event){
     var element = $(this);
     $("button[type=submit]").prop('disabled',true);
 
+    // Create a FormData object
+    var formData = new FormData(element[0]);
+
+    // Add the file input to FormData
+    formData.append('image', $('#image')[0].files[0]);
+
     $.ajax({
         url: '{{ route("products.update", $product->id ) }}',
-        type: 'put',
-        data: element.serializeArray(),
+        type: 'post',
+        data: formData,
         dataType: 'json',
+        contentType: false,
+        processData: false,
         success: function(response){
-            $("button[type=submit]").prop('disabled',false);
+            $("button[type=submit]").prop('disabled', false);
 
             if(response["status"] == true) {
-
                 window.location.href="{{ route('products.index') }}";
 
                 $("#name").removeClass('is-invalid')
                     .siblings('p')
                     .removeClass('invalid-feedback').html("");
-
             } else {
-
                 if(response['notFound'] == true) {
                     window.location.href="{{ route('products.index') }}";
                 }
@@ -147,14 +158,13 @@ $("#productForm").submit(function(event){
 
                 $.each(errors, function(key,value){
                     $(`#${key}`).addClass('is-invalid')
-                    .siblings('p')
-                    .addClass('invalid-feedback')
-                    .html(value);
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(value);
                 });
-
             }
-            
-        }, error: function(jqXHR, exception){
+        }, 
+        error: function(jqXHR, exception){
             console.log("Something went wrong");
         }
     })

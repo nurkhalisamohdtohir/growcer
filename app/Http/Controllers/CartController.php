@@ -144,8 +144,14 @@ class CartController extends Controller
 
         session()->forget('url.intended');
 
-        return view('front.checkout',$data, [
-            'customerAddress' => $customerAddress
+        //Calculate total including shipping charge
+        $shipping = 5;
+        $grandTotal = Cart::subtotal()+$shipping;
+
+        return view('front.checkout', [
+            'customerAddress' => $customerAddress,
+            'shipping' => $shipping,
+            'grandTotal' => $grandTotal,
         ]);
     }
 
@@ -191,7 +197,7 @@ class CartController extends Controller
 
         if ($request->payment_method == 'cod') {
 
-            $shipping = 0;
+            $shipping = 5;
             $discount = 0;
             $subTotal = Cart::subtotal(2,'.','');
             $grandTotal = $subTotal+$shipping;

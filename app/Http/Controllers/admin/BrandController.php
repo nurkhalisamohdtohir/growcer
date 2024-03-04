@@ -11,7 +11,7 @@ class BrandController extends Controller
 {
     public function index(Request $request) {
 
-        $brands = Brand::oldest();
+        $brands = Brand::latest('brands.id');
 
         if(!empty($request->get('keyword'))) {
             $brands = $brands->where('name', 'like', '%'.$request->get('keyword').'%');

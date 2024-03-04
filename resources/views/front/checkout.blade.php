@@ -99,7 +99,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="sub-title">
-                        <h2>Order Summery</h3>
+                        <h2>Order Summary</h3>
                     </div>                    
                     <div class="card cart-summery">
                         <div class="card-body">
@@ -107,7 +107,7 @@
                             @foreach (Cart::content() as $item)
                             <div class="d-flex justify-content-between pb-2">
                                 <div class="h6">{{ $item->name }} X {{ $item->qty }}</div>
-                                <div class="h6">RM {{ $item->price*$item->qty }}</div>
+                                <div class="h6">RM {{ number_format($item->price*$item->qty, 2) }}</div>
                             </div>
                             @endforeach
 
@@ -117,11 +117,11 @@
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
-                                <div class="h6"><strong>RM 0</strong></div>
+                                <div class="h6"><strong>RM {{ number_format($shipping, 2) }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong>RM {{ Cart::subtotal() }}</strong></div>
+                                <div class="h5"><strong>RM {{ number_format($grandTotal, 2) }}</strong></div>
                             </div>                            
                         </div>
                     </div>   

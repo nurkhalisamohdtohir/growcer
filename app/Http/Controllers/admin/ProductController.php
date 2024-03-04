@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
@@ -14,7 +15,7 @@ class ProductController extends Controller
 
     public function index(Request $request) {
 
-        $products = Product::with('category')->oldest();
+        $products = Product::latest('products.id');
 
         if(!empty($request->get('keyword'))) {
             $products = $products->where('name', 'like', '%'.$request->get('keyword').'%');
@@ -38,17 +39,20 @@ class ProductController extends Controller
     }
 
     public function store(Request $request) {
-        
+        //dd($request->all());
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'category' => 'required',
             'brand' => 'required',
+            'status' => 'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:1024',
         ]);
 
         if($validator->passes()) {
 
+            $product = new Product();
             $product->name = $request->name;
             $product->price = $request->price;
             $product->quantity = $request->quantity;
@@ -57,11 +61,22 @@ class ProductController extends Controller
             $product->status = $request->status;
             $product->save();
 
-            $request->session()->flash('success', 'Product updated successfully');
+            if ($request->hasFile('image'))
+            {
+                $image = $request->file('image');
+                
+                $extension = $image->getClientOriginalExtension();
+                $imageName = $product->id.'.'.$extension;
+                $image->move(public_path('admin-assets/image/'), $imageName);
+                $product->image = $imageName;
+                $product->save();
+            }
+
+            $request->session()->flash('success', 'Product created successfully');
 
             return response()->json([
                 'status' => true,
-                'message' => 'Product updated successfully'
+                'message' => 'Product created successfully'
             ]);
 
         } else {
@@ -101,10 +116,12 @@ class ProductController extends Controller
 
         $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'category' => 'required',
             'brand' => 'required',
+            'status' => 'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:1024',
         ]);
 
         if($validator->passes()) {
@@ -116,6 +133,24 @@ class ProductController extends Controller
             $product->brand_id = $request->brand;
             $product->status = $request->status;
             $product->save();
+
+            if ($request->hasFile('image')) {
+                // Delete the existing image
+                if (!empty($product->image)) {
+                    $imagePath = public_path('admin-assets/image/') . $product->image;
+                    if (File::exists($imagePath)) {
+                        File::delete($imagePath);
+                    }
+                }
+        
+                // Handle new image upload
+                $newImage = $request->file('image');
+                $extension = $newImage->getClientOriginalExtension();
+                $newImageName = $product->id . '.' . $extension;
+                $newImage->move(public_path('admin-assets/image/'), $newImageName);
+                $product->image = $newImageName;
+                $product->save();
+            }
 
             $request->session()->flash('success', 'Product updated successfully');
 
@@ -146,7 +181,15 @@ class ProductController extends Controller
             ]);
         }
 
-        $category->delete();
+        // Delete existing image if it exists
+        if (!empty($product->image)) {
+            $imagePath = public_path('admin-assets/image/') . $product->image;
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+        }
+
+        $product->delete();
 
         $request->session()->flash('success', 'Product deleted successfully');
 

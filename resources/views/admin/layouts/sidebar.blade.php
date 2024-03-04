@@ -36,25 +36,11 @@
                         <i class="nav-icon fas fa-tag"></i>
                         <p>Products</p>
                     </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <!-- <i class="nav-icon fas fa-tag"></i> -->
-                        <i class="fas fa-truck nav-icon"></i>
-                        <p>Shipping</p>
-                    </a>
                 </li>							
                 <li class="nav-item">
-                    <a href="orders.html" class="nav-link">
+                    <a href="{{ route('orders.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p>Orders</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="discount.html" class="nav-link">
-                        <i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
-                        <p>Discount</p>
                     </a>
                 </li>
                 <li class="nav-item">
